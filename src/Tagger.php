@@ -19,7 +19,7 @@ class Tagger
     /**
      * Initialize a new Tag object
      *
-     * @param Closure|string $content The content of this tag
+     * @param string $content The content of this tag
      */
     public function __construct($content = null)
     {
