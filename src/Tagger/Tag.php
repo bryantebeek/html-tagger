@@ -17,28 +17,28 @@
 class Tag
 {
     /**
-     * The identifier of the tag
+     * The identifier of the tag.
      *
      * @var string
      */
     protected $identifier;
 
     /**
-     * An array of the tag attributes stored as ['attribute' => 'value']
+     * An array of the tag attributes stored as ['attribute' => 'value'].
      *
      * @var array
      */
     protected $attributes = array();
 
     /**
-     * The content to be placed between the opening and the closing tag
+     * The content to be placed between the opening and the closing tag.
      *
      * @var Closure|string
      */
     protected $content;
 
     /**
-     * Initialize a new Tag object, if an argument is given we use it to be the content of the tag
+     * Initialize a new Tag object, if an argument is given we use it to be the content of the tag.
      *
      * @param string $content
      */
@@ -48,7 +48,7 @@ class Tag
     }
 
     /**
-     * Render the Tag as an HTML string
+     * Render the Tag as an HTML string.
      *
      * @return string The Tag object as an HTML string
      */
@@ -58,7 +58,7 @@ class Tag
     }
 
     /**
-     * Generates the opening tag
+     * Generates the opening tag.
      *
      * @return string The opening tag
      */
@@ -68,7 +68,7 @@ class Tag
     }
 
     /**
-     * Generates the closing tag
+     * Generates the closing tag.
      *
      * @return string The closing tag
      */
@@ -78,11 +78,12 @@ class Tag
     }
 
     /**
-     * Set an attribute
+     * Set an attribute.
      *
      * @param string $attribute
-     *
      * @param string $value
+     *
+     * @return Tagger\Tag
      */
     public function setAttribute($attribute, $value)
     {
@@ -106,7 +107,7 @@ class Tag
     }
 
     /**
-     * Set multiple attributes
+     * Set multiple attributes.
      *
      * @param array $attributes An array of attributes to be set
      */
@@ -121,7 +122,7 @@ class Tag
     }
 
     /**
-     * Get an array all the attributes
+     * Get an array all the attributes.
      *
      * @return array All attributes
      */
@@ -131,7 +132,7 @@ class Tag
     }
 
     /**
-     * Set the content
+     * Set the content.
      *
      * @param  Closure|string $content The content
      *
@@ -145,7 +146,7 @@ class Tag
     }
 
     /**
-     * Get the content
+     * Get the content.
      *
      * @return string The content
      */
@@ -155,7 +156,7 @@ class Tag
     }
 
     /**
-     * Render all the attributes for usage in a html tag
+     * Render all the attributes for usage in a html tag.
      *
      * @return string All the attributes in a string
      */
@@ -172,7 +173,7 @@ class Tag
     }
 
     /**
-     * Check if the Tag has an attribute
+     * Check if the Tag has an attribute.
      *
      * @param  string  $attribute The attribute name
      *
@@ -184,7 +185,7 @@ class Tag
     }
 
     /**
-     * Check if the Tag has multiple attributes
+     * Check if the Tag has multiple attributes.
      *
      * @param  array  $attributes An array of attribute names
      *
@@ -217,7 +218,7 @@ class Tag
     }
 
     /**
-     * Dynamically set attributes on the Tag
+     * Dynamically set attributes on the Tag.
      *
      * @param  string $method
      * @param  array $parameters
@@ -236,7 +237,7 @@ class Tag
     }
 
     /**
-     * Create the string representation of the Tag
+     * Create the string representation of the Tag.
      *
      * @return string The Tag object as a HTML string
      */
@@ -246,7 +247,7 @@ class Tag
     }
 
     /**
-     * Dynamically set an attribute
+     * Dynamically set an attribute.
      *
      * @param string $attribute
      * @param string $value
@@ -257,7 +258,7 @@ class Tag
     }
 
     /**
-     * Dynamically get an attribute
+     * Dynamically get an attribute.
      *
      * @param  string $attribute
      *
