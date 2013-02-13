@@ -1,4 +1,4 @@
-<?php namespace Tagger;
+<?php namespace Tagger\Laravel;
 
 use Illuminate\Support\ServiceProvider;
 use Tagger\Tag;
