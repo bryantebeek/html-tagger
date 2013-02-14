@@ -87,7 +87,7 @@ class Tag
      */
     public function setAttribute($attribute, $value)
     {
-        if (!is_null($value)) {
+        if (! empty($value)) {
             $this->attributes[$attribute] = $value;
         }
 
@@ -115,8 +115,7 @@ class Tag
      */
     public function setAttributes(array $attributes)
     {
-        foreach($attributes as $attribute => $value)
-        {
+        foreach ($attributes as $attribute => $value) {
             $this->setAttribute($attribute, $value);
         }
 
@@ -124,9 +123,9 @@ class Tag
     }
 
     /**
-     * Get an array all the attributes.
+     * Get an array of all the attributes.
      *
-     * @return array All attributes
+     * @return array
      */
     public function getAttributes()
     {
@@ -138,7 +137,7 @@ class Tag
      *
      * @param  Closure|string $content The content
      *
-     * @return Goforit\Doit\Tag
+     * @return Tagger\Tag
      */
     public function content($content)
     {
@@ -150,7 +149,7 @@ class Tag
     /**
      * Get the content.
      *
-     * @return string The content
+     * @return string
      */
     public function getContent()
     {
@@ -160,13 +159,15 @@ class Tag
     /**
      * Render all the attributes for usage in a html tag.
      *
-     * @return string All the attributes in a string
+     * @return string
      */
     protected function renderAttributes()
     {
         $attributesHTML = "";
         foreach ($this->attributes as $key => $attribute) {
-            if(is_callable($attribute)) $attribute = $attribute();
+            if (is_callable($attribute)) {
+                $attribute = $attribute();
+            }
 
             $attributesHTML .= " {$key}=\"{$attribute}\"";
         }
@@ -197,14 +198,16 @@ class Tag
     {
         foreach ($attributes as $attribute)
         {
-            if ( ! $this->hasAttribute($attribute)) return false;
+            if (! $this->hasAttribute($attribute)) {
+                return false;
+            }
         }
 
         return true;
     }
 
     /**
-     * Create a new Tag object and set it's identifier, if any arguments are given pass it to the constructor
+     * Create a new Tag object and set it's identifier and content if applicable.
      *
      * @param  string $method
      * @param  array  $parameters
@@ -229,8 +232,10 @@ class Tag
      */
     public function __call($method, $parameters)
     {
-        if (empty($parameters) || count($parameters) > 1) {
-            throw new \InvalidArgumentException("Call to ".__CLASS__."::{$method}() with zero or more than one argument.");
+        if (empty($parameters)) {
+            throw new \InvalidArgumentException("Can't set the {$method} attribute with zero arguments.");
+        } elseif (count($parameters) > 1) {
+            throw new \InvalidArgumentException("Can't set the {$method} attribute with two or more arguments");
         }
 
         $this->setAttribute($method, $parameters[0]);
@@ -241,7 +246,7 @@ class Tag
     /**
      * Create the string representation of the Tag.
      *
-     * @return string The Tag object as a HTML string
+     * @return string
      */
     public function __toString()
     {
