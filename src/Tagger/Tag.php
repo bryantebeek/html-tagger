@@ -44,7 +44,7 @@ class Tag
      */
     public function __construct($content = null)
     {
-        $this->content = is_callable($content) ? $content() : $content;
+        $this->content = is_callable($content) ? $content($this) : $content;
     }
 
     /**
@@ -141,7 +141,7 @@ class Tag
      */
     public function content($content)
     {
-        $this->content = is_callable($content) ? $content() : $content;
+        $this->content = is_callable($content) ? $content($this) : $content;
 
         return $this;
     }
