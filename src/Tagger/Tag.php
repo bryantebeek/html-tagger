@@ -50,7 +50,7 @@ class Tag
     /**
      * Render the Tag as an HTML string.
      *
-     * @return string The Tag object as an HTML string
+     * @return string
      */
     public function render()
     {
@@ -60,7 +60,7 @@ class Tag
     /**
      * Generates the opening tag.
      *
-     * @return string The opening tag
+     * @return string
      */
     public function open()
     {
@@ -70,7 +70,7 @@ class Tag
     /**
      * Generates the closing tag.
      *
-     * @return string The closing tag
+     * @return string
      */
     public function close()
     {
@@ -99,7 +99,7 @@ class Tag
      *
      * @param  string $attribute The name of the attribute to get
      *
-     * @return string            The value of the attribute
+     * @return string
      */
     public function getAttribute($attribute)
     {
@@ -110,6 +110,8 @@ class Tag
      * Set multiple attributes.
      *
      * @param array $attributes An array of attributes to be set
+     *
+     * @return Tagger\Tag
      */
     public function setAttributes(array $attributes)
     {
