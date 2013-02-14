@@ -42,7 +42,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 
     public function testTagWithContentClosure()
     {
-        $tag = Tag::foo(function() {
+        $tag = Tag::foo(function($tag) {
             return "test";
         });
         $this->assertEquals('<foo>test</foo>', $tag);
@@ -50,7 +50,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 
     public function testTagWithAttributeClosure()
     {
-        $tag = Tag::foo()->title(function() {
+        $tag = Tag::foo()->title(function($tag) {
             return "test";
         });
         $this->assertEquals('<foo title="test"></foo>', $tag);
