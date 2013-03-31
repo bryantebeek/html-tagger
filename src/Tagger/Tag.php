@@ -44,7 +44,7 @@ class Tag
      */
     public function __construct($content = null)
     {
-        $this->content = is_callable($content) ? $content($this) : $content;
+        $this->content = $content;
     }
 
     /**
@@ -135,13 +135,13 @@ class Tag
     /**
      * Set the content.
      *
-     * @param  Closure|string $content The content
+     * @param  string $content The content
      *
      * @return Tagger\Tag
      */
     public function content($content)
     {
-        $this->content = is_callable($content) ? $content($this) : $content;
+        $this->content = $content;
 
         return $this;
     }
