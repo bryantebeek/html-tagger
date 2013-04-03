@@ -10,7 +10,6 @@ Installing Tagger with composer is super easy, just add the following requiremen
 
 # Usage
 
-### Open a tag
 You can start using Tagger by calling the desired tag name as a static method on the Tag class.
 ```php
 Tagger\Tag::div();
