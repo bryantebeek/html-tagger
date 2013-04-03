@@ -1,5 +1,7 @@
 <?php namespace Tagger;
 
+use Closure;
+
 /**
  * Class to generate HTML tags easily
  *
@@ -10,21 +12,21 @@
  * @package  Tagger
  * @author   Bryan te Beek <bryantebeek@gmail.com>
  * @license  MIT <http://www.github.com/MIT>
- * @version  1.0.0
- * @link     http://www.github.com/bryantebeek/tagger
+ * @version  1.1.0
+ * @link     http://www.github.com/bryantebeek/html-tagger
  *
  */
 class Tag
 {
     /**
-     * The identifier of the tag.
+     * The identifier of the tag. (e.g. `a` for <a></a>)
      *
      * @var string
      */
     protected $identifier;
 
     /**
-     * An array of the tag attributes stored as ['attribute' => 'value'].
+     * The attributes to be rendered.
      *
      * @var array
      */
@@ -38,17 +40,17 @@ class Tag
     protected $content;
 
     /**
-     * Initialize a new Tag object, if an argument is given we use it to be the content of the tag.
+     * Create a new Tag object.
      *
-     * @param string $content
+     * @param Closure|string $content
      */
     public function __construct($content = null)
     {
-        $this->content = $content;
+        $this->setContent($content);
     }
 
     /**
-     * Render the Tag as an HTML string.
+     * Render as a HTML string.
      *
      * @return string
      */
@@ -58,7 +60,7 @@ class Tag
     }
 
     /**
-     * Generates the opening tag.
+     * Generate the opening tag.
      *
      * @return string
      */
@@ -68,7 +70,7 @@ class Tag
     }
 
     /**
-     * Generates the closing tag.
+     * Generate the closing tag.
      *
      * @return string
      */
@@ -83,10 +85,14 @@ class Tag
      * @param string $attribute
      * @param string $value
      *
-     * @return Tagger\Tag
+     * @return self
      */
     public function setAttribute($attribute, $value)
     {
+        if ($value instanceof Closure) {
+            $this->attributes[$attribute] = call_user_func_array($value, array($this));
+        }
+
         if (! empty($value)) {
             $this->attributes[$attribute] = $value;
         }
@@ -95,9 +101,9 @@ class Tag
     }
 
     /**
-     * Get an attribute
+     * Get an attribute.
      *
-     * @param  string $attribute The name of the attribute to get
+     * @param  string $attribute
      *
      * @return string
      */
@@ -109,9 +115,9 @@ class Tag
     /**
      * Set multiple attributes.
      *
-     * @param array $attributes An array of attributes to be set
+     * @param array $attributes
      *
-     * @return Tagger\Tag
+     * @return self
      */
     public function setAttributes(array $attributes)
     {
@@ -133,17 +139,15 @@ class Tag
     }
 
     /**
-     * Set the content.
+     * Fluent version to set the content.
      *
-     * @param  string $content The content
+     * @param  Closure|string $content
      *
-     * @return Tagger\Tag
+     * @return self
      */
     public function content($content)
     {
-        $this->content = $content;
-
-        return $this;
+        return $this->setContent($content);
     }
 
     /**
@@ -157,6 +161,24 @@ class Tag
     }
 
     /**
+     * Set the content.
+     *
+     * @param  Closure|string $content
+     *
+     * @return self
+     */
+    public function setContent($content)
+    {
+        if ($content instanceof Closure) {
+            $this->content = call_user_func_array($content, array($this));
+        } else {
+            $this->content = $content;
+        }
+
+        return $this;
+    }
+
+    /**
      * Render all the attributes for usage in a html tag.
      *
      * @return string
@@ -164,9 +186,10 @@ class Tag
     protected function renderAttributes()
     {
         $attributesHTML = "";
+
         foreach ($this->attributes as $key => $attribute) {
-            if (is_callable($attribute)) {
-                $attribute = $attribute();
+            if ($attribute instanceof Closure) {
+                $attribute = call_user_func_array($attribute, array($this));
             }
 
             $attributesHTML .= " {$key}=\"{$attribute}\"";
@@ -178,7 +201,7 @@ class Tag
     /**
      * Check if the Tag has an attribute.
      *
-     * @param  string  $attribute The attribute name
+     * @param  string  $attribute
      *
      * @return boolean
      */
@@ -190,14 +213,13 @@ class Tag
     /**
      * Check if the Tag has multiple attributes.
      *
-     * @param  array  $attributes An array of attribute names
+     * @param  array  $attributes
      *
      * @return boolean
      */
     public function hasAttributes($attributes)
     {
-        foreach ($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             if (! $this->hasAttribute($attribute)) {
                 return false;
             }
@@ -212,12 +234,12 @@ class Tag
      * @param  string $method
      * @param  array  $parameters
      *
-     * @return Tagger\Tag
+     * @return self
      */
     public static function __callStatic($method, $parameters)
     {
         $tag = count($parameters) > 0 ? new static($parameters[0]) : new static;
-        $tag->identifier = $tag->identifier ?: $method;
+        $tag->identifier = $method;
 
         return $tag;
     }
@@ -228,7 +250,7 @@ class Tag
      * @param  string $method
      * @param  array $parameters
      *
-     * @return mixed
+     * @return self
      */
     public function __call($method, $parameters)
     {
@@ -269,7 +291,7 @@ class Tag
      *
      * @param  string $attribute
      *
-     * @return string
+     * @return mixed
      */
     public function __get($attribute)
     {
