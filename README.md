@@ -91,4 +91,4 @@ $tag->hasAttributes(array('id', 'class')); // true
 $tag->hasAttributes(array('class', 'title')); // false
 ```
 
-[![Build Status](https://secure.travis-ci.org/bryantebeek/tagger.png)](http://travis-ci.org/bryantebeek/tagger)
+[![Build Status](https://secure.travis-ci.org/bryantebeek/html-tagger.png)](http://travis-ci.org/bryantebeek/html-tagger)
