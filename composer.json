@@ -1,6 +1,7 @@
 {
     "name": "bryantebeek/tagger",
     "description": "A beautiful html markup library.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Bryan te Beek",
